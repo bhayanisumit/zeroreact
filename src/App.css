@@ -23,12 +23,23 @@
 
 
 .sameline{ display: inline-block !important;}
+
 .hidebox {
   display: none;
 }
 .showbox{
   display: block;
 }
+
+.hideboxs {
+  visibility: hidden;
+}
+.showboxs{
+  visibility: visible;
+}
+
+
+
  
 table { 
   margin: 0 auto;

@@ -88,6 +88,7 @@ export default class Create extends Component {
   submitemilid(e){
     e.preventDefault(); 
     if(this.state.txtshareemailid){
+      var self = this;
       this.setState({ loading : true });
           axios.post(this.state.api + 'email',{'userid' : this.state.userid, 'emailid' : this.state.txtshareemailid })
           .then(response => {
@@ -100,6 +101,7 @@ export default class Create extends Component {
               }
           }).catch(function (error) {
             console.log(error);
+            self.setState({ loading : '', txtshareemailid : '' });
           }) 
     }
  }
@@ -143,6 +145,7 @@ export default class Create extends Component {
      
       e.preventDefault();
          if(this.state.txtedit){
+           var self = this;
           this.setState({ loading: true })
           const obj = {
             id : id,
@@ -157,7 +160,8 @@ export default class Create extends Component {
                   console.log(res.data.msg);
                 }
                       }).catch(function (error) {
-                console.log(error);
+                        self.setState({ loading : false , txtedit : '' });
+                        console.log(error);
               }) 
          }
     }
@@ -210,6 +214,7 @@ export default class Create extends Component {
     onSubmit(e) {
       e.preventDefault();
          if(this.state.txttodo){
+           var self = this;
            this.setState({ loading : true })
           const obj = {
             txttodo: this.state.txttodo,
@@ -219,6 +224,7 @@ export default class Create extends Component {
               .then(res => { if(res.status) { this.setState({ todolist: res.data.data , loading : false });   } else {  this.setState({ loading : false }); console.log(res.data.msg); }  })
               .catch(function (error) {
                 console.log(error);
+                self.setState({ loading : false, txttodo  : '' });
               }) 
   
                this.setState({
@@ -294,7 +300,7 @@ export default class Create extends Component {
           css={override}
           sizeUnit={"px"}
           size={30}
-          color={'#123abc'}
+          color={'#123abc'} 
           loading={this.state.loading}
         />
               </form>
@@ -317,9 +323,9 @@ export default class Create extends Component {
           loading={this.state.loading}
         />
       </div> 
-         <button className="btn btn-primary btn-sm mt-2" onClick={this.logout} >Logout</button>
-         <button className="btn btn-primary btn-sm ml-2 mt-2" onClick={this.opentxtbox} >Share</button>
-       
+         <button className="btn btn-primary btn-sm mt-2 sameline" onClick={this.logout} >Logout</button>
+         <button className={`btn btn-success btn-sm ml-2 mt-2 sameline ${this.state.todolist.length > 0 ? 'showboxs' : 'hideboxs'}`} onClick={this.opentxtbox} >Share</button>
+        
        <div className={this.state.sharebool ? 'showbox': 'hidebox' } ><form onSubmit={this.submitemilid}>
          <input placeholder="Enter Email id"
                                type="text" 
@@ -329,7 +335,7 @@ export default class Create extends Component {
                                />
                                </form>
                                <button className='mt-1 btn  btn-sm btn-primary' onClick={this.submitemilid}><FaCheck /></button>
-                               <button className='mt-1 btn ml-1 btn-sm btn-info' onClick={this.cancelemail}><FaTimes /></button>
+                               <button className='mt-1 btn ml-1 btn-sm btn-danger' onClick={this.cancelemail}><FaTimes /></button>
                                </div>
          <h3 className="text-center mt-3">To-Do Application</h3>
          
@@ -345,13 +351,18 @@ export default class Create extends Component {
     </div>
   </div>
             </form> 
-        
-     <table className="table table-striped mt-4 col-8 table-dark" style={{ marginTop: 20 }}>
+            <div className='row '> <div className='col mt-3 text-center'><button type="button" className="btn btn-info">
+  Total to-do <span className="badge badge-pill badge-secondary">{this.state.todolist.length}</span>
+</button></div> </div>
+     <table className="table table-striped mt-2 col-8 table-dark" style={{ marginTop: 20 }}>
         <tbody>
           <tr className={this.state.todolist.length === 0 ? 'showbox' : 'hidebox'}>
           <td ><h2>No Data Found</h2></td>
           </tr>
        {this.state.todolist.map(data => (
+         
+           
+           
            <tr id={data.id}  key={data.id}>
              <td> 
              <div className={this.state.showResults === data.id ? 'showbox' : 'hidebox'}>
@@ -360,7 +371,7 @@ export default class Create extends Component {
              
              </form>
              <button className='sameline mt-2  btn btn-primary btn-sm' onClick={this.clkupdatetxt.bind(this,data.id)}><FaCheck /></button>
-             <button className='mt-2 sameline ml-1 btn btn-info btn-sm' onClick={this.close}><FaTimes /></button>
+             <button className='mt-2 sameline ml-1 btn btn-danger btn-sm' onClick={this.close}><FaTimes /></button>
              
              </div>
              <div className={this.state.showResults !== data.id ? 'showbox' : 'hidebox'}>
@@ -368,7 +379,7 @@ export default class Create extends Component {
               <input className="form-check-input position-static" type="checkbox" onClick={this.handlechkChange.bind(this,data.id,data.donelist)}  defaultChecked={data.donelist}  />
              </div>
              <p id={data.id} className=' pl-4 h4 sameline' onClick={this.donework.bind(this,data.id,data.name,data.donelist)}> {data.donelist ? <del>{data.name}</del> : `${data.name}` } </p>
-              <button value={data.id} onClick={this.delete} className="btn btn-info float-right   btn-sm ml-2"> <FaTimes /></button>
+              <button value={data.id} onClick={this.delete} className="btn btn-danger float-right   btn-sm ml-2"> <FaTimes /></button>
              </div>
              </td>
             </tr>
