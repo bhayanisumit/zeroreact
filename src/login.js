@@ -2,12 +2,8 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './login.css';
-// import axios from 'axios';
 
 class Login extends Component {
-    // constructor(props) {
-    //     super(props);
-    // }
  render() {
         return (
             <div className="container">

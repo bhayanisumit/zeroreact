@@ -4,14 +4,9 @@ import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { css } from '@emotion/core';
-
 import ClipLoader from 'react-spinners/BeatLoader';
-// Another way to import. This is recommended to reduce bundle size
-
 import axios from 'axios';
 import { Cookies } from 'react-cookie';
-
- 
 import { FaTimes, FaCheck } from 'react-icons/fa';
 
 const override = css`
@@ -21,8 +16,8 @@ const override = css`
     border-color: red;
     width:200px;
     height:50px;
-    
 `;
+
 export default class Create extends Component {
   constructor(props) {
       super(props);
@@ -94,23 +89,20 @@ export default class Create extends Component {
     e.preventDefault(); 
     if(this.state.txtshareemailid){
       this.setState({ loading : true });
-    axios.post(this.state.api + 'email',{'userid' : this.state.userid, 'emailid' : this.state.txtshareemailid })
-    .then(response => {
-      
-        if(response.data.status){
-          this.setState({ sharebool : false , txtshareemailid : '' , loading : false });
-          alert(response.data.msg);
-          // this.setState({  todolist: response.data.data  });
-        }else {
-          this.setState({ loading : false });
-          console.log(response.data.msg);
-        }
-    })
-    .catch(function (error) {
-      console.log(error);
-    }) 
-  }
-  }
+          axios.post(this.state.api + 'email',{'userid' : this.state.userid, 'emailid' : this.state.txtshareemailid })
+          .then(response => {
+              if(response.data.status){
+                  this.setState({ sharebool : false , txtshareemailid : '' , loading : false });
+                  alert(response.data.msg);
+              }else {
+                  this.setState({ loading : false });
+                  console.log(response.data.msg);
+              }
+          }).catch(function (error) {
+            console.log(error);
+          }) 
+    }
+ }
 
   handlechkChange(id,val,e){
       var obj ={}; 
