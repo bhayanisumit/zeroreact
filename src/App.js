@@ -49,7 +49,7 @@ export default class Create extends Component {
         login : '',
         username : '',
         password : '',
-        api : 'http://127.0.0.1:8000/api/',
+        api : 'https://bhayanisumit.in/zero-api/public/api/',
         token : '',
         header : '',
         userid : null,
